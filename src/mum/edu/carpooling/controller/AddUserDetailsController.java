@@ -20,13 +20,13 @@ import mum.edu.carpooling.service.impl.UserServiceImpl;
 /**
  * Servlet implementation class UserController
  */
-@WebServlet("/UserController")
-public class UserController extends HttpServlet {
+@WebServlet("/addUserDetails")
+public class AddUserDetailsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	UserService userService = new UserServiceImpl();
 	
-    public UserController() {
+    public AddUserDetailsController() {
         super();
     }
    
