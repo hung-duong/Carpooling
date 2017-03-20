@@ -29,7 +29,7 @@ public class UserController extends HttpServlet {
     public UserController() {
         super();
     }
-
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dipatcher = request.getRequestDispatcher("WEB-INF/views/addUserDetails.jsp");
 		dipatcher.forward(request, response);

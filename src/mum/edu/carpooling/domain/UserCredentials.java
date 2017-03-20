@@ -3,7 +3,7 @@ package mum.edu.carpooling.domain;
 public class UserCredentials {
 	String username;
 	String password;
-
+   
 	public String getUsername() {
 		return username;
 	}

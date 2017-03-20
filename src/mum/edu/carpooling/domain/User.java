@@ -14,7 +14,7 @@ public class User {
 	private Date datecreated;
 	private Date dateupdated;
 	private String username;
-
+    
 	public User() {
 	}
 	

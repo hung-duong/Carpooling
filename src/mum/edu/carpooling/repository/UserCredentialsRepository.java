@@ -14,16 +14,15 @@ public class UserCredentialsRepository {
 	public UserCredentialsRepository() {
 		connection = DBConnection.getConnection();
 	}
-
+    
 	public boolean authenticate(String username, String password) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("select password from UserCredentials where username = ?");
+					.prepareStatement("SELECT password FROM UserCredentials WHERE username = ?");
 			prepStatement.setString(1, username);
 
 			ResultSet result = prepStatement.executeQuery();
 			if (result != null) {
-				System.out.print(username);
 				while (result.next()) {
 					if (result.getString(1).equals(password)) {
 						return true;
@@ -41,15 +40,17 @@ public class UserCredentialsRepository {
 	public UserCredentials findOne(String username) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("select password from UserCredentials where username = ?");
+					.prepareStatement("SELECT password FROM UserCredentials WHERE username = ?");
 			prepStatement.setString(1, username);
 
 			ResultSet result = prepStatement.executeQuery();
 			if (result != null) {
-				UserCredentials userCredentials = new UserCredentials();
-				userCredentials.setPassword(username);
-				userCredentials.setPassword(result.getString(1));
-				return userCredentials;
+				while (result.next()) {
+					UserCredentials userCredentials = new UserCredentials();
+					userCredentials.setPassword(username);
+					userCredentials.setPassword(result.getString(1));
+					return userCredentials;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,10 +62,10 @@ public class UserCredentialsRepository {
 	public void addUser(String username, String password) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("insert into UserCredentials(userName, password) values (?, ?)");
+					.prepareStatement("INSERT INTO UserCredentials(username, password) VALUES (?, ?)");
 			prepStatement.setString(1, username);
 			prepStatement.setString(2, password);
-			prepStatement.executeUpdate();
+			prepStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

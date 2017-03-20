@@ -91,7 +91,11 @@
 												make_hidden('errorsUsername');
 												make_hidden('errorsPassord');
 												make_hidden('errorsVerifypassword');
-												if (xhr.status == "409") {
+												if (xhr.status == "200") {
+													window.location
+															.replace(contextRoot
+																	+ '/addUserDetails');
+												} else if (xhr.status == "409") {
 													$('#errorsUsername').html(
 															"");
 													$('#errorsPassord')

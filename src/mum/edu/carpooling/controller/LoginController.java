@@ -13,9 +13,6 @@ import javax.servlet.http.HttpSession;
 import mum.edu.carpooling.service.UserCredentialsService;
 import mum.edu.carpooling.service.impl.UserCredentialsServiceImpl;
 
-/**
- * Servlet implementation class LoginController
- */
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -38,7 +35,7 @@ public class LoginController extends HttpServlet {
 		
 		dipatcher.forward(request, response);
 	}
-
+    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
