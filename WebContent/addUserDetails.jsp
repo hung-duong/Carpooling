@@ -11,13 +11,15 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/addUserDetails.js"></script>
 </head>
 <body>
 	<div class="jumbotron text-left">
 		<h1>Wellcome to Carpooling</h1>
 	</div>
 
-	<form action="/NycSports/addUserDetails" method="post">
+	<form>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
@@ -28,13 +30,14 @@
 								name:</label>
 							<div class="col-sm-7">
 								<input id="fullName" name="fullName" type="text" class="form-control" />
+								<div id="errorsFullName" style="display: none; color: red;"></div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-lg-3" for="gender">*Gender:</label>
 							<div class="col-sm-7">
 								<div class="btn dropdown-toggle">
-									<select name="gender">
+									<select id="gender">
 										<option value="male" label="Male" />
 										<option value="female" label="Female" />
 									</select>
@@ -46,6 +49,7 @@
 							<div class="col-sm-7">
 								<input class="form-control"
 									placeholder="eg.example@newyork.com" id="email" name="email" type="text"/>
+								<div id="errorsEmail" style="display: none; color: red;"></div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -53,6 +57,7 @@
 							<div class="col-sm-7">
 								<input class="form-control" placeholder="MM/DD/YYYY"
 									id="dob" name="dob" type="text"/>
+								<div id="errorsDob" style="display: none; color: red;"></div>
 							</div>
 						</div>
 					</div>
@@ -64,24 +69,28 @@
 							<label class="control-label col-sm-2" for="street">Street:</label>
 							<div class="col-sm-8">
 								<input class="form-control" id="street" name="street" type="text"/>
+								<div id="errorsStreet" style="display: none; color: red;"></div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="city">City:</label>
 							<div class="col-sm-8">
 								<input class="form-control" id="city" name="city" type="text"/>
+								<div id="errorsCity" style="display: none; color: red;"></div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="state">State:</label>
 							<div class="col-sm-8">
 								<input class="form-control" id="state" placeholder="Eg.IA (Must be 2 characters)" name="state" type="text"/>
+								<div id="errorsState" style="display: none; color: red;"></div>
 							</div>
 						</div> 
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="zipCode">ZipCode:</label>
 							<div class="col-sm-8">
 								<input class="form-control" id="zipCode" name="zipCode" type="text"/>
+								<div id="errorsZipCode" style="display: none; color: red;"></div>
 							</div>
 						</div>
 					</div>
