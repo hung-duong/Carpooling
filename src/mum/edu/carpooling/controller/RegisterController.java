@@ -10,32 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mum.edu.carpooling.domain.UserCredentials;
 import mum.edu.carpooling.service.UserCredentialsService;
 import mum.edu.carpooling.service.impl.UserCredentialsServiceImpl;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class RegisterController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/RegisterController")
+public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	UserCredentialsService credentialsService = new UserCredentialsServiceImpl();
 	
-    public LoginController() {
+    public RegisterController() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String user = (String) session.getAttribute("user");
-		RequestDispatcher dipatcher = null;
-		if(user != null) {
-			dipatcher = request.getRequestDispatcher("WEB-INF/views/welcome.jsp");
-		} else {
-			dipatcher = request.getRequestDispatcher("WEB-INF/views/login.jsp");
-		}
-		
+		RequestDispatcher dipatcher = request.getRequestDispatcher("WEB-INF/views/register.jsp");
 		dipatcher.forward(request, response);
 	}
 
@@ -43,28 +36,22 @@ public class LoginController extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		boolean isLogin = false;
+		System.out.println(username);
+		System.out.println(password);
 		RequestDispatcher dipatcher = null;
-		try {
-			isLogin = credentialsService.authenticate(username, password);
-		} catch (Exception e) {
-			request.setAttribute("error", "Username/Password not found");
-			dipatcher = request.getRequestDispatcher("WEB-INF/views/login.jsp");
-			dipatcher.forward(request, response);
+		UserCredentials user = credentialsService.findOne(username);
+		
+		if(user != null) {
+			response.sendError(HttpServletResponse.SC_CONFLICT, "");
 			return;
 		}
 		
-		if (!isLogin) {
-			request.setAttribute("error", "Username/Password not found");
-			dipatcher = request.getRequestDispatcher("WEB-INF/views/login.jsp");
-			dipatcher.forward(request, response);
-			return;
-		}
+		//credentialsService.addUser(username, password);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username);
 		
-		dipatcher = request.getRequestDispatcher("WEB-INF/views/welcome.jsp");
+		dipatcher = request.getRequestDispatcher("WEB-INF/views/addUserDetails.jsp");
 		dipatcher.forward(request, response);
 	}
 

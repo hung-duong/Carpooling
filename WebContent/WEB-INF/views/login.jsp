@@ -2,6 +2,46 @@
 
 <html>
 <head>
+<style>
+.a-divider.a-divider-break {
+	text-align: center;
+	position: relative;
+	top: 2px;
+	padding-top: 1px;
+	margin-bottom: 14px;
+	line-height: 0;
+}
+.btn.btn-lg.btn-success.btn-mini {
+	color: #fff;
+	width: 100%;
+}
+.form-input-large {
+	width: 100%;
+}
+.a-button-span12 {
+	width: 100% !important;
+}
+.a-button {
+	background: #e7e9ec;
+	border-radius: 3px;
+	border-color: #adb1b8 #a2a6ac #8d9096;
+	border-style: solid;
+	border-width: 1px;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0;
+	text-align: center;
+	text-decoration: none !important;
+	vertical-align: middle;
+}
+.a-button-inner {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset;
+	border-radius: 2px;
+}
+</style>
 <title>Login</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,9 +68,13 @@
 					</div>
 					<div class="panel-body">
 						<c:if test="${not empty error}">
-							<div class="alert alert-danger"></div>
+							<div class="alert alert-danger">
+								<%if (request.getAttribute("error") != null) { %>
+								<p>${error}</p>
+								<%}%>
+							</div>
 						</c:if>
-						<form action="" method="post">
+						<form action="login" method="post">
 							<fieldset>
 								<div class="form-group">
 									<input class="form-input-large" placeholder="User Name"
@@ -54,7 +98,7 @@
 						<span id="auth-create-account-link"
 							class="a-button a-button-span12"> <span
 							class="a-button-inner"> <a id="createAccountSubmit"
-								tabindex="6" href="/register" class="a-button-text"
+								tabindex="6" href="register" class="a-button-text"
 								role="button"> Create your Carpooling account </a>
 						</span></span>
 					</div>

@@ -3,38 +3,75 @@ package mum.edu.carpooling.domain;
 import java.util.Date;
 
 public class User {
-	private String firstName;
-	private String lastName;
+	private String fullname;
+	private boolean gender;
 	private String email;
 	private Date dob;
-    private Address addresse;
-    private UserCredentials userCredentials;
-    
+	private String street;
+	private String city;
+	private String state;
+	private String zipCode;
+	private Date datecreated;
+	private Date dateupdated;
+	private String username;
+
 	public User() {
 	}
-
-	public String getFirstName() {
-		return firstName;
+	
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	
+	public boolean isGender() {
+		return gender;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public void setGender(boolean gender) {
+		this.gender = gender;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public String getUsername() {
+		return username;
 	}
 
-	public Address getAddresse() {
-		return addresse;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setAddresse(Address addresse) {
-		this.addresse = addresse;
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public void setDob(Date dob) {
@@ -53,11 +90,19 @@ public class User {
 		this.email = email;
 	}
 	
-	public UserCredentials getUserCredentials() {
-		return userCredentials;
+	public Date getDatecreated() {
+		return datecreated;
 	}
 
-	public void setUserCredentials(UserCredentials userCredentials) {
-		this.userCredentials = userCredentials;
+	public void setDatecreated(Date datecreated) {
+		this.datecreated = datecreated;
+	}
+
+	public Date getDateupdated() {
+		return dateupdated;
+	}
+
+	public void setDateupdated(Date dateupdated) {
+		this.dateupdated = dateupdated;
 	}
 }
