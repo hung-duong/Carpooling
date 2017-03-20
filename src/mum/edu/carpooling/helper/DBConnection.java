@@ -3,14 +3,15 @@ package mum.edu.carpooling.helper;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnection {
-	private static Connection dbConnection = null;
-
-	public static Connection getConnection() {
-		if (dbConnection != null) {
-			return dbConnection;
+	private static Connection connection = null;
+	
+	public static synchronized Connection getConnection() {
+		if (connection != null) {
+			return connection;
 		} else {
 			try {
 				InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("db.properties");
@@ -24,13 +25,18 @@ public class DBConnection {
 					String password = properties.getProperty("password");
 
 					Class.forName(dbDriver).newInstance();
-					dbConnection = DriverManager.getConnection(connectionUrl, userName, password);
+					connection = DriverManager.getConnection(connectionUrl, userName, password);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 				//e.printStackTrace();
 			}
-			return dbConnection;
+			return connection;
 		}
+	}
+	
+	public static void close() throws SQLException {
+		if(connection != null)
+			connection.close();
 	}
 }
