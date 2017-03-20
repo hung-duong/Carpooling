@@ -23,5 +23,5 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
 	public void addUser(String username, String password) {
 		userCredentialsRepository.addUser(username, password);
-	}
+	} 
 }

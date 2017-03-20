@@ -11,7 +11,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link href="/Carpooling/resources/css/login.css" type="text/css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/resources/css/login.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 	<div class="jumbotron text-center">
@@ -28,9 +28,13 @@
 					</div>
 					<div class="panel-body">
 						<c:if test="${not empty error}">
-							<div class="alert alert-danger"></div>
+							<div class="alert alert-danger">
+								<%if (request.getAttribute("error") != null) { %>
+								<p>${error}</p>
+								<%}%>
+							</div>
 						</c:if>
-						<form action="LoginController" method="post">
+						<form action="login" method="post">
 							<fieldset>
 								<div class="form-group">
 									<input class="form-input-large" placeholder="User Name"
@@ -54,7 +58,7 @@
 						<span id="auth-create-account-link"
 							class="a-button a-button-span12"> <span
 							class="a-button-inner"> <a id="createAccountSubmit"
-								tabindex="6" href="/register" class="a-button-text"
+								tabindex="6" href="register" class="a-button-text"
 								role="button"> Create your Carpooling account </a>
 						</span></span>
 					</div>

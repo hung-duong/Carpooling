@@ -1,6 +1,8 @@
 package mum.edu.carpooling.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,13 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mum.edu.carpooling.domain.UserCredentials;
+import mum.edu.carpooling.formatter.UserCredentialsFormatter;
 import mum.edu.carpooling.service.UserCredentialsService;
 import mum.edu.carpooling.service.impl.UserCredentialsServiceImpl;
 
-/**
- * Servlet implementation class RegisterController
- */
-@WebServlet("/RegisterController")
+@WebServlet("/register")
 public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -28,31 +28,31 @@ public class RegisterController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dipatcher = request.getRequestDispatcher("WEB-INF/views/register.jsp");
+		RequestDispatcher dipatcher = request.getRequestDispatcher("register.jsp");
 		dipatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		
-		System.out.println(username);
-		System.out.println(password);
-		RequestDispatcher dipatcher = null;
-		UserCredentials user = credentialsService.findOne(username);
-		
-		if(user != null) {
+		//get received JSON data from request
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String json = "";
+        if(br != null){
+            json = br.readLine();
+        }
+        
+        UserCredentials user = UserCredentialsFormatter.parse(json);
+        UserCredentials userExist = credentialsService.findOne(user.getUsername());
+		if(userExist != null) {
 			response.sendError(HttpServletResponse.SC_CONFLICT, "");
 			return;
 		}
 		
-		//credentialsService.addUser(username, password);
+		credentialsService.addUser(user.getUsername(), user.getPassword());
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("username", username);
+		session.setAttribute("username", user.getUsername());
 		
-		dipatcher = request.getRequestDispatcher("WEB-INF/views/addUserDetails.jsp");
-		dipatcher.forward(request, response);
+		response.sendError(HttpServletResponse.SC_OK, "");
 	}
 
 }
