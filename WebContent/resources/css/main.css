@@ -1,0 +1,78 @@
+body {
+    font-family: "monospace", sans-serif;
+}
+
+div {
+    padding: 10px;
+    margin: 10px;
+}
+
+.divHide {
+    border: 0px;
+}
+
+.searchInput {
+    border: 0px;
+    font-size: 12px;
+}
+.userInfo {
+    border: 1px solid gray;
+    width: 30%;
+    border-radius: 10px 10px 10px 10px;
+    font-style: italic;
+    font-size: 14px;
+    float: right;
+}
+
+
+.userPost {
+    clear: right;
+    padding: 0px;
+    border: 0px;
+}
+
+.divPost {
+    padding: 0px;
+    border: 2px solid;
+    border-radius: 16px 16px 16px 16px;
+    text-align: right;
+}
+
+.pTitle {
+    margin: 0px;
+    padding: 10px;
+    border-radius: 14px 14px 0px 0px;
+    background-color: skyblue;
+    text-align: left;
+    font-weight: bold;
+}
+
+.pBody {
+    margin: 0px;
+    padding: 10px;
+    text-align: left;
+}
+
+.btnComments {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #CCCCFF;
+}
+
+.divComment {
+    padding: 0px;
+    border: 1px solid;
+    text-align: left;
+}
+
+.divCommentTitle {
+    margin: 0px;
+    padding: 10px;
+    background-color: beige;
+    text-align: left;
+}
+.cEmail {
+    float:right;
+    font-style: italic;
+}

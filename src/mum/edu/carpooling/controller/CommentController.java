@@ -12,22 +12,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mum.edu.carpooling.domain.Post;
-import mum.edu.carpooling.repository.PostRepository;
-import mum.edu.carpooling.service.UserPostService;
-import mum.edu.carpooling.service.impl.UserPostServiceImpl;
+import mum.edu.carpooling.domain.Comment;
+import mum.edu.carpooling.service.UserCommentService;
+import mum.edu.carpooling.service.impl.UserCommentServiceImpl;
 
 /**
- * Servlet implementation class PostController
+ * Servlet implementation class CommentController
  */
-@WebServlet("/Post")
-public class PostController extends HttpServlet {
+@WebServlet("/Comment")
+public class CommentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostController() {
+    public CommentController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,25 +36,27 @@ public class PostController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		UserPostService postService = new UserPostServiceImpl();
-		
-		ArrayList<Post> posts = postService.getUserPosts();
+		String sPostId = request.getParameter("postId");
+		if (sPostId.length() <=0)
+			return;
+		Integer postId = Integer.valueOf(sPostId);
+		UserCommentService comService = new UserCommentServiceImpl();
+		ArrayList<Comment> comments = comService.getComments(postId);
 		response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         StringBuffer sb = new StringBuffer();
         sb.append("[");
-        for (Post p : posts) {
+        for (Comment c : comments) {
 			sb.append("{\n");
-			sb.append("\"id\": \"").append(p.getPostId().toString()).append("\",\n");
-			sb.append("\"username\": \"").append(p.getUserName()).append("\",\n");
-			sb.append("\"posttype\": \"").append(p.getPostType().toString()).append("\",\n");
-			sb.append("\"datecreated\": \"").append(df.format(p.getDateCreated())).append("\",\n");
-			sb.append("\"title\": \"").append(p.getTitle()).append("\",\n");
-			sb.append("\"body\": \"").append(p.getBody()).append("\"\n");
-			sb.append("},\n");	
+			sb.append("\"id\": \"").append(c.getComId().toString()).append("\",\n");
+			sb.append("\"postid\": \"").append(c.getPostId().toString()).append("\",\n");
+			sb.append("\"username\": \"").append(c.getUserName()).append("\",\n");
+			sb.append("\"datecreated\": \"").append(df.format(c.getDateCreated())).append("\",\n");
+			sb.append("\"body\": \"").append(c.getComment()).append("\"\n");
+			sb.append("},\n");
         }
-        if (posts.size() > 0)
+        if (comments.size() > 0)
 			sb.setCharAt(sb.length()-2, ']');
         else
         	sb.append("]");

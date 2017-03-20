@@ -14,19 +14,19 @@ public class PostRepository {
 	private Connection dbConnect;
 	
 	public PostRepository() {
-		System.out.println("Post Rep");
 		dbConnect = DBConnection.getConnection();
 	}
 	
 	//Insert new post from user
-	public void Insert(String userName, int postType, String post) throws SQLException{
+	public void Insert(String userName, String title, String body, int postType) throws SQLException{
 		try{
 						
-			String sql = "INSERT INTO posts(username,post,posttype,datecreated) VALUES (?,?,?,curdate())";
+			String sql = "INSERT INTO posts(username,title,body,posttype,datecreated) VALUES (?,?,?,curdate())";
 			PreparedStatement pStatement = (PreparedStatement) dbConnect.prepareStatement(sql);
 			pStatement.setString(1, userName);
-			pStatement.setString(2, post);
-			pStatement.setInt(3, postType);
+			pStatement.setString(2, title);
+			pStatement.setString(3, body);
+			pStatement.setInt(4, postType);
 			pStatement.execute();
 			
 		}
