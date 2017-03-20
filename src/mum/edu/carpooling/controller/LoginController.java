@@ -39,9 +39,9 @@ public class LoginController extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		RequestDispatcher dipatcher = null;
 		if(user != null) {
-			dipatcher = request.getRequestDispatcher("WEB-INF/views/welcome.jsp");
+			dipatcher = request.getRequestDispatcher("welcome.jsp");
 		} else {
-			dipatcher = request.getRequestDispatcher("WEB-INF/login.jsp");
+			dipatcher = request.getRequestDispatcher("login.jsp");
 		}
 		
 		dipatcher.forward(request, response);
@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean isLogin = false;
 		RequestDispatcher dipatcher = null;
-		String username = request.getParameter("");
+		/*String username = request.getParameter("");
 		String password = request.getParameter("");
 		try {
 			isLogin = credentialsService.authenticate(username, password);
@@ -66,15 +66,15 @@ public class LoginController extends HttpServlet {
 		
 		if (!isLogin) {
 			request.setAttribute("error", "Username/Password not found");
-			dipatcher = request.getRequestDispatcher("WEB-INF/login.jsp");
+			dipatcher = request.getRequestDispatcher("login.jsp");
 			dipatcher.forward(request, response);
 			return;
 		}
+		*/
+		/*HttpSession session = request.getSession();
+		session.setAttribute("username", username);*/
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("username", username);
-		
-		dipatcher = request.getRequestDispatcher("WEB-INF/views/welcome.jsp");
+		dipatcher = request.getRequestDispatcher("welcome.jsp");
 		dipatcher.forward(request, response);
 	}
 

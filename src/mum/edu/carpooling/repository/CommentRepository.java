@@ -18,14 +18,14 @@ private Connection dbConnect;
 	}
 	
 	//Insert new comment from user
-	public void Insert(String userName, int postId, String coms) throws SQLException{
+	public void Insert(String userName, int postId, String comment) throws SQLException{
 		try{
 						
 			String sql = "INSERT INTO comments(username,postid,comment,datecreated) VALUES (?,?,?,curdate())";
 			PreparedStatement pStatement = (PreparedStatement) dbConnect.prepareStatement(sql);
 			pStatement.setString(1, userName);
 			pStatement.setInt(2, postId);
-			pStatement.setString(3, coms);
+			pStatement.setString(3, comment);
 			pStatement.execute();
 			
 		}
