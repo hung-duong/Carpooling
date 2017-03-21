@@ -77,10 +77,6 @@ div {
     float:right;
     font-style: italic;
 }
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
 
 .textEdit {	
 	text-align: left;

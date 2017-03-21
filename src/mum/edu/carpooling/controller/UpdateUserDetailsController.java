@@ -37,7 +37,7 @@ public class UpdateUserDetailsController extends HttpServlet {
 			request.setAttribute("user", user);
 			dipatcher = request.getRequestDispatcher("updateUserDetails.jsp");
 		} else {
-			dipatcher = request.getRequestDispatcher("welcome.jsp");
+			dipatcher = request.getRequestDispatcher("login.jsp");
 		}
 		
 		dipatcher.forward(request, response);

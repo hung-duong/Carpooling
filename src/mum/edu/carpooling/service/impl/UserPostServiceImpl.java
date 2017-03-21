@@ -36,4 +36,10 @@ public class UserPostServiceImpl implements UserPostService {
 		return true;
 	}
 
+	@Override
+	public boolean isNotification(String userName) {
+		// TODO Auto-generated method stub
+		return postDB.isNewPost(userName);
+	}
+
 }

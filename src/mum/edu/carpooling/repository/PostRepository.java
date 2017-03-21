@@ -76,4 +76,32 @@ public class PostRepository {
 
 		return posts;
 	}
+
+	public boolean isNewPost(String userName) {
+	
+		try {
+			String sql = "select username,datecreated from posts where "
+					+ "datecreated in (select max(datecreated) from posts where username!=?) "
+					+ "and datecreated > (NOW() - INTERVAL 20 second)";	
+			
+			PreparedStatement prepSatement = null;
+			if (dbConnect != null)
+				prepSatement = dbConnect.prepareStatement(sql);
+			else 
+				System.out.println("dbConnection is null");
+			
+			prepSatement.setString(1, userName);
+			
+			ResultSet rs = prepSatement.executeQuery();
+			if (!rs.next())  
+				return false;
+			else
+				return true;
+		}
+		catch(Exception e) {
+				e.printStackTrace();
+		}
+
+		return false;
+	}
 }

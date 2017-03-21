@@ -1,10 +1,11 @@
 "use strict";
-
+var intervalFunction;
 $(function() {
 	var USERPOST_URL = "http://localhost:8080/Carpooling/Post";	
 	var USERCOMM_URL = "http://localhost:8080/Carpooling/Comment?postId=";	
 	var POSTDEL_URL = "http://localhost:8080/Carpooling/DelPost?postId=";
 	var ADDCOMM_URL = "http://localhost:8080/Carpooling/AddComment?postId=";
+	var NOTIFY_URL = "http://localhost:8080/Carpooling/Notification";
 	// click GO button to search
 	
 	(function() { 
@@ -127,8 +128,49 @@ $(function() {
 		divComm.appendTo(parent);
 	}
 
+	// handle menu click to stop myinterval
+	(function() {
+		
+		var myVar = setInterval(function(){ myTimer() }, 5000);
+
+		function myTimer() {
+			$.get(NOTIFY_URL)
+			.done(function(posts){
+				checkNotify(posts);
+			})
+			.fail(ajaxFailure);
+		}
+
+		function checkNotify(jsonnotify) {				
+			if (jsonnotify.notify == "yes") {					
+				$("#menuhome").removeClass("active");
+				$("#menuhome").addClass("notify");					
+			}						
+		}
+		
+		function myStopFunction() {
+		    clearInterval(myVar);
+		}
+		
+		$("#menuhome").on( "click", function(evt) {	
+			myStopFunction();
+			return true;
+		});
+		$("#menuaddpost").on( "click", function(evt) {	
+			myStopFunction();		
+			return true;
+		});
+		$("#menumap").on( "click", function(evt) {	
+			myStopFunction();	
+			return true;
+		});
+		$("#menuprofile").on( "click", function(evt) {	
+			myStopFunction();
+			return true;
+		});
+	})();
+	
 	function ajaxFailure(xhr, status, exception) {
 	    console.log(xhr, status, exception);
 	}
-	
 });

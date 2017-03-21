@@ -20,14 +20,14 @@
 <body>
 
 <div class="topnav">
-  <a class="active" href="/Carpooling/login">Home</a>
-  <a href="/Carpooling/AddPost">Add Post</a>
-  <a href="#map">Map</a>
-  <a href="updateUserDetails">Update Profile</a>
+  <a class="active" href="/Carpooling/login" id="menuhome">Home</a>
+  <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
+  <a href="#map" id="menumap">Map</a>
+  <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
 </div>
 		<input type="hidden" name="username" id="username" value="${username}">
 		<div id="container">
-			<h1>Welcome to Car Pooling Service</h1>		
+			<h1>Welcome to Car Pooling Service</h1>				
  			<br>
  			<div id="userPost" class="divHide">
 			</div>
