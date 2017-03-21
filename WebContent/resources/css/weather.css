@@ -1,0 +1,51 @@
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#map-canvas {
+	width: 100%;
+	height: 100%;
+}
+
+.gm-style-iw {
+	text-align: center;
+}
+
+fieldset.radiogroup  { 
+  margin: 0; 
+  padding: 0; 
+  margin-bottom: 1.25em; 
+  padding: .125em; 
+} 
+
+fieldset.radiogroup legend { 
+  margin: 0; 
+  padding: 0; 
+  font-weight: bold; 
+  margin-left: 20px; 
+  font-size: 100%; 
+  color: black; 
+} 
+
+
+ul.radio  { 
+  margin: 0; 
+  padding: 0; 
+  margin-left: 20px; 
+  list-style: none; 
+} 
+
+ul.radio li { 
+  border: 1px transparent solid; 
+} 
+
+ul.radio li:hover, 
+ul.radio li.focus  { 
+  background-color: lightyellow; 
+  border: 1px gray solid; 
+  width: 10em; 
+} 

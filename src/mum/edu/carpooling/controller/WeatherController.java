@@ -56,7 +56,14 @@ public class WeatherController extends HttpServlet {
 			user.setCity("Fairfield");
 			user.setState("ia");
 		}	
-		forward(request, response, "weather.jsp");
+		
+		String choice = request.getParameter("des");
+		if (choice != null)
+			System.out.println("choice= " + choice);
+		else
+			System.out.println("No choice made");
+		
+		forward(request, response, "search_weather.jsp");
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, String pageName)
