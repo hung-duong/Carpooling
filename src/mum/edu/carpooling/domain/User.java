@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 	private String fullname;
-	private boolean gender;
+	private int gender;
 	private String email;
 	private Date dob;
 	private String street;
@@ -26,14 +26,6 @@ public class User {
 		this.fullname = fullname;
 	}
 	
-	public boolean isGender() {
-		return gender;
-	}
-
-	public void setGender(boolean gender) {
-		this.gender = gender;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -42,6 +34,14 @@ public class User {
 		this.username = username;
 	}
 
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	
 	public String getStreet() {
 		return street;
 	}

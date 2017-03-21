@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="jumbotron text-center">
-		<h1>Wellcome to Carpooling</h1>
+		<h1>Welcome to Car Pooling Service</h1>
 		<p>Please login your account</p>
 	</div>
 

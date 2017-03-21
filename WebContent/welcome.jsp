@@ -23,7 +23,7 @@
   <a class="active" href="/Carpooling/login">Home</a>
   <a href="/Carpooling/AddPost">Add Post</a>
   <a href="#map">Map</a>
-  <a href="#map">Update Profile</a>
+  <a href="updateUserDetails">Update Profile</a>
 </div>
 		<input type="hidden" name="username" id="username" value="${username}">
 		<div id="container">

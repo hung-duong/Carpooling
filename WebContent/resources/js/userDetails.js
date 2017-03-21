@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var isValidAll;
 	
 	//Event Handler click for seach button
-    $("#addUser").click(function() {
+    $("#userForm").click(function() {
     	isValidAll = true;
     	verifyFullname();
     	verifyEmail();
@@ -11,10 +11,13 @@ $(document).ready(function() {
     	verifyCity();
     	verifyState();
     	verifyZipCode();
+    	
+    	if(!isValidAll) 
+    		return false;
     });
     
     function verifyFullname() {
-    	if($("#fullName").value() == "") {
+    	if($("#fullName").val() == "") {
     		isValidAll = false;
     		$("#errorsFullName").text("This field should not be empty");
     		$("#errorsFullName").show();
@@ -24,13 +27,13 @@ $(document).ready(function() {
     }
     
     function verifyEmail() {
-    	var re = new RegExp("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+    	var re = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0.9]+$");
     	
-    	if($("#email").value() == "") {
+    	if($("#email").val() == "") {
     		isValidAll = false;
     		$("#errorsEmail").text("This field should not be empty");
     		$("#errorsEmail").show();
-    	} else if(re.test($("email").value())) {
+    	} else if(!re.test($("#email").val())) {
     		isValidAll = false;
     		$("#errorsEmail").text("Email should be correct format");
     		$("#errorsEmail").show();
@@ -41,23 +44,41 @@ $(document).ready(function() {
     
     
     function verifyDob() {
-    	var re = new RegExp("^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$");
+    	var re = new RegExp("^(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/[0-9]{4}$");
     	
-    	if($("#dob").value() == "") {
+    	if($("#dob").val() == "") {
     		isValidAll = false;
     		$("#errorsDob").text("This field should not be empty");
     		$("#errorsDob").show();
-    	} else if(re.test($("email").value())) {
+    	} else if(!re.test($("#dob").val())) {
     		isValidAll = false;
     		$("#errorsDob").text("Dob should be correct format");
     		$("#errorsDob").show();
     	} else {
-    		$("#errorsDob").hide();
+    		var age = getAge($("#dob").val());
+    		if(age <= 18) {
+    			isValidAll = false;
+        		$("#errorsDob").text("You should be greater then 18 years old");
+        		$("#errorsDob").show();
+    		} else {
+    			$("#errorsDob").hide();
+    		}
     	}
     }
     
+    function getAge(dateString) {
+        var today = new Date();
+        var birthDate = new Date(dateString);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+    
     function verifyStreet() {
-    	if($("#street").value() == "") {
+    	if($("#street").val() == "") {
     		isValidAll = false;
     		$("#errorsStreet").text("This field should not be empty");
     		$("#errorsStreet").show();
@@ -67,7 +88,7 @@ $(document).ready(function() {
     }
     
     function verifyCity() {
-    	if($("#city").value() == "") {
+    	if($("#city").val() == "") {
     		isValidAll = false;
     		$("#errorsCity").text("This field should not be empty");
     		$("#errorsCity").show();
@@ -77,13 +98,13 @@ $(document).ready(function() {
     }
     
     function verifyState() {
-    	var re = new RegExp("\w{2}$");
+    	var re = new RegExp("^[a-zA-Z]{2}$");
     	
-    	if($("#state").value() == "") {
+    	if($("#state").val() == "") {
     		isValidAll = false;
     		$("#errorsState").text("This field should not be empty");
     		$("#errorsState").show();
-    	} else if(re.test($("email").value())) {
+    	} else if(!re.test($("#state").val())) {
     		isValidAll = false;
     		$("#errorsState").text("Should enter 2 characters");
     		$("#errorsState").show();
@@ -93,13 +114,13 @@ $(document).ready(function() {
     }
     
     function verifyZipCode() {
-    	var re = new RegExp("\d{5}$");
+    	var re = new RegExp("^[0-9]{5}$");
     	
-    	if($("#zipCode").value() == "") {
+    	if($("#zipCode").val() == "") {
     		isValidAll = false;
     		$("#errorsZipCode").text("This field should not be empty");
     		$("#errorsZipCode").show();
-    	} else if(re.test($("email").value())) {
+    	} else if(!re.test($("#zipCode").val())) {
     		isValidAll = false;
     		$("#errorsZipCode").text("Should enter 5 numbers");
     		$("#errorsZipCode").show();
