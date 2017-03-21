@@ -29,7 +29,6 @@
 	let APPID = "&APPID=";
 	let OPEN_WEATHER_MAP_KEY = "a30be688bf0b959ec440996cd755e890";
 	var firstLoad = true;
-	console.log("Set first load");
 	var URL_ICON = "http://openweathermap.org/img/w/";
 	var map;
 	var geoJSON = {
@@ -74,10 +73,6 @@
 		// Sets up and populates the info window with details
 		
 		map.data.addListener('click', function(event) {
-			/* /* main : results.list[1].weather[0].main,
-			description : results.list[1].weather[0].description, 
-			icon : "http://openweathermap.org/img/w/"
-					+ results.list[1].weather[0].icon + ".png", */
 			var contentHTML = "<table>";
             for(var i = 0; i <event.feature.getProperty("list").length; i++) {
           
@@ -86,8 +81,6 @@
                 contentHTML += "<br /><strong>" + event.feature.getProperty("list")[i].dt_txt + "</strong>";
                 contentHTML += "<br />" + event.feature.getProperty("list")[i].weather[0].main;
                 contentHTML += "<br />" + event.feature.getProperty("list")[i].main.temp;
-                /* contentHTML += "<br />" + event.feature.getProperty("list")[i].weather[0].description;  */
-        
                 contentHTML += "</td>";
             }
             contentHTML += "</table>";
@@ -133,17 +126,21 @@
 	
 	function initialWeatherMap() {
 		var requestString= "";
-		if(${empty user.city}){
+		if(${not empty user.city} == true){
 			//_CityFrom 
 			requestString = URL + CITY_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
-		} else if(${not empty user.zipCode}){
+			$.get(requestString).done(function(results) {
+				ForecastFromCitySuccess(results);
+			}).fail(ajaxError);
+		} else if(${not empty user.zipCode} == true){
 			//_ZipcodeFrom
 			requestString = URL + ZIP_CODE_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
+			$.get(requestString).done(function(results) {
+				ForecastFromCitySuccess(results);
+			}).fail(ajaxError);
+		} else {
+			 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
 		}
-		//console.log(requestString);
-		$.get(requestString).done(function(results) {
-			ForecastFromCitySuccess(results);
-		}).fail(ajaxError);
 	}
 	function ForecastFromCitySuccess(results) {
 		resetData();
@@ -165,10 +162,7 @@
 			properties : {
 				city : results.city.name,
 				list: results.list,
-				/* main : results.list[1].weather[0].main,
-				description : results.list[1].weather[0].description, */
-				icon : "http://openweathermap.org/img/w/"
-						+ results.list[1].weather[0].icon + ".png",
+				icon : URL_ICON + results.list[1].weather[0].icon + ".png",
 				coordinates : [ results.city.coord.lon, results.city.coord.lat ]
 			},
 			geometry : {
@@ -208,23 +202,27 @@
 	
 	 $(function() {
 		 $("#btnSearchDes").click(GoSearchDesFunc);
-		 
+		
 		 function GoSearchDesFunc() {
 				var requestString= "";
-				if($("#txtSearch").val().trim() != "" && $('input:radio[name=des]:checked').val() == "cityDes"){
+				if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "City Destination"){
 					//_CityFrom 
-					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY; 
-				} else {
+					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY;
+					//console.log(requestString);
+					$.get(requestString).done(function(results) {
+						ForecastFromCitySuccess(results);
+					}).fail(ajaxError);
+				} else if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "Zip Code Destination"){
 					//_ZipcodeFrom
 					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + APPID + OPEN_WEATHER_MAP_KEY; 
+					$.get(requestString).done(function(results) {
+						ForecastFromCitySuccess(results);
+					}).fail(ajaxError);
+				} else {
+					 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
 				}
-				//console.log(requestString);
-				$.get(requestString).done(function(results) {
-					ForecastFromCitySuccess(results);
-				}).fail(ajaxError);
 		}
 	 });
-	//$("#btnSearchDesCity").click(GoSearchDesCityFunc);
 </script>
 
 </head>
@@ -237,21 +235,14 @@
 				State: <input class="form-control"
 					placeholder="Eg.IA (Must be 2 characters)" name="state" type="text"
 					value="${user.getState()}" id="txtState" />
-
-				<input type="submit" name="btnSearchDes" id="btnSearchDes"
+				<select id="des">
+				  <option>City Destination</option>
+				  <option>Zip Code Destination</option>
+				  <option>Current Location</option>
+				</select> 
+				<input type="button" name="btnSearchDes" id="btnSearchDes"
 					value="Search" />
 			</div>
-			<ul class="radio">
-				<li><input type="radio" name="des" value="cityDes"
-					${cityDesChecked} checked /><label for="cityDes">City
-						Destination</label></li>
-				<li><input type="radio" name="des" value="zipCodeDes"
-					${zipCodeDesChecked} /><label for="zipCodeDes">Zip Code
-						Destination</label></li>
-				<li><input type="radio" name="des" value="currentLocation"
-					${currentLocationChecked} /><label for="currentLocation">Current
-						Location</label></li>
-			</ul>
 		</fieldset>
 	</form>
 	<div id="map-canvas"></div>
