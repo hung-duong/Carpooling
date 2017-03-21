@@ -28,6 +28,7 @@
 	let ZIP_CODE_FROM = "forecast?zip=" + ${user.zipCode} + "";
 	let APPID = "&APPID=";
 	let OPEN_WEATHER_MAP_KEY = "a30be688bf0b959ec440996cd755e890";
+	let DEFAULT_UNIT = "Imperial";
 	var firstLoad = true;
 	var URL_ICON = "http://openweathermap.org/img/w/";
 	var map;
@@ -126,15 +127,17 @@
 	
 	function initialWeatherMap() {
 		var requestString= "";
-		if(${not empty user.city} == true){
+		var city = "${user.city}";
+		var zipCode = "${user.zipCode}";
+		if(city != ""){
 			//_CityFrom 
-			requestString = URL + CITY_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
+			requestString = URL + CITY_FROM + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
 			$.get(requestString).done(function(results) {
 				ForecastFromCitySuccess(results);
 			}).fail(ajaxError);
-		} else if(${not empty user.zipCode} == true){
+		} else if(zipCode !=""){
 			//_ZipcodeFrom
-			requestString = URL + ZIP_CODE_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
+			requestString = URL + ZIP_CODE_FROM + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
 			$.get(requestString).done(function(results) {
 				ForecastFromCitySuccess(results);
 			}).fail(ajaxError);
@@ -207,14 +210,14 @@
 				var requestString= "";
 				if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "City Destination"){
 					//_CityFrom 
-					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY;
+					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY;
 					//console.log(requestString);
 					$.get(requestString).done(function(results) {
 						ForecastFromCitySuccess(results);
 					}).fail(ajaxError);
 				} else if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "Zip Code Destination"){
 					//_ZipcodeFrom
-					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + APPID + OPEN_WEATHER_MAP_KEY; 
+					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
 					$.get(requestString).done(function(results) {
 						ForecastFromCitySuccess(results);
 					}).fail(ajaxError);
