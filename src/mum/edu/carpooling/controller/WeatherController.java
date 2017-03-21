@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mum.edu.carpooling.domain.User;
+import mum.edu.carpooling.service.UserService;
+import mum.edu.carpooling.service.impl.UserServiceImpl;
 
 /**
  * Servlet implementation class WeatherController
@@ -43,19 +45,12 @@ public class WeatherController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		UserService userService = new UserServiceImpl();
 		
-		if(user == null){
-			user = new User();
-			user.setZipCode("52557");
-			user.setCity("Fairfield");
-			user.setState("ia");
-			session.setAttribute("user", user);	
-		} else {
-			user.setZipCode("52557");
-			user.setCity("Fairfield");
-			user.setState("ia");
-		}	
+		String username = (String) session.getAttribute("username");
+		
+		User user = userService.findUserByUsername(username);
+		request.setAttribute("user", user);
 		
 		String choice = request.getParameter("des");
 		if (choice != null)
