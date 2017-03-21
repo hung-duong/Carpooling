@@ -29,4 +29,11 @@ public class UserCommentServiceImpl implements UserCommentService {
 		return true;
 	}
 
+	@Override
+	public boolean delelteComments(Integer postId) {
+		// TODO Auto-generated method stub
+		commentDB.Delete(postId);
+		return true;
+	}
+
 }

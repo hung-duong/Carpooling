@@ -21,7 +21,7 @@ private Connection dbConnect;
 	public void Insert(String userName, int postId, String comment) throws SQLException{
 		try{
 						
-			String sql = "INSERT INTO comments(username,postid,comment,datecreated) VALUES (?,?,?,curdate())";
+			String sql = "INSERT INTO comments(username,postid,comment,datecreated) VALUES (?,?,?,now())";
 			PreparedStatement pStatement = (PreparedStatement) dbConnect.prepareStatement(sql);
 			pStatement.setString(1, userName);
 			pStatement.setInt(2, postId);
@@ -32,36 +32,18 @@ private Connection dbConnect;
 		catch(ParseException e){
 			e.printStackTrace();
 		}
-		finally{
-			try{
-				dbConnect.close();
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
-			
-		}
-		
 	}
 	
-	//delete the comment from user
-	public void Delete(int commentId){
+	//delete the comment from postid
+	public void Delete(int postId){
 		try{
-			String sql = "DELETE FROM comments WHERE commentid=?";
+			String sql = "DELETE FROM comments WHERE postid=?";
 			java.sql.PreparedStatement pStatement = dbConnect.prepareStatement(sql);
-			pStatement.setInt(1, commentId);			
+			pStatement.setInt(1, postId);			
 			pStatement.execute();
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
-		finally{
-			try{
-				dbConnect.close();
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
 		}
 	}
 	

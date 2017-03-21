@@ -12,20 +12,21 @@
 </head>
 <body>
 <div class="topnav">
-  <a href="welcome.jsp">Home</a>
+  <a href="/Carpooling/login">Home</a>
   <a class="active"  href="addpost.jsp">Add Post</a>
   <a href="#map">Map</a>
   <a href="#map">Update Profile</a>
 </div>
 <h1>User Add Post</h1>
-	<form action="addpost.jsp" method="post">
+	<form action="AddPost" method="post">
 		<p>Title: </p> <input type="text" name="title" id="title"/>
-		<p>Content: </p> <textarea rows="4" cols="50"></textarea>
+		<p>Content: </p> <textarea rows="4" cols="50" name="body" id="body"></textarea>
 		<p>Type: &nbsp;&nbsp;
-		 <select>
+		 <select name="posttype" id="posttype">
 		  <option value="0">Asking</option>
 		  <option value="1">Offering</option>
 		</select></p>		
+		<input type="submit" value="Submit"/>
 	</form>
 
 </body>
