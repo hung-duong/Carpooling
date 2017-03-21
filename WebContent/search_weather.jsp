@@ -17,7 +17,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
 	type="text/javascript"></script>
 
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<link rel="stylesheet" href="/Carpooling/resources/css/menu.css"/>
 
 <script type="text/javascript"
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRPzdQe_b24l8lC0mYu1Hb6_WcpPWmfUo"></script>
@@ -25,7 +25,7 @@
 <script>
 	let URL = "http://api.openweathermap.org/data/2.5/";
 	let CITY_FROM = "forecast?q="+ "${user.city}" + "," + "${user.state}" + ",us";
-	let ZIP_CODE_FROM = "forecast?zip=" + ${user.zipCode} + "";
+	let ZIP_CODE_FROM = "forecast?zip=" + "${user.zipCode}";
 	let APPID = "&APPID=";
 	let OPEN_WEATHER_MAP_KEY = "a30be688bf0b959ec440996cd755e890";
 	let DEFAULT_UNIT = "Imperial";
@@ -230,6 +230,12 @@
 
 </head>
 <body>
+	<div class="topnav">
+  <a href="/Carpooling/login" id="menuhome">Home</a>
+  <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
+  <a class="active" href="/Carpooling/WeatherController" id="menumap">Map</a>
+  <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+</div>
 	<form method='post' action='WeatherController'>
 		<fieldset class="radiogroup">
 			<legend>Search Weather by</legend>
