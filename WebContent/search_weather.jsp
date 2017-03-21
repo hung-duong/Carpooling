@@ -16,7 +16,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
 	type="text/javascript"></script>
-	
+
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 
 <script type="text/javascript"
@@ -25,9 +25,11 @@
 <script>
 	let URL = "http://api.openweathermap.org/data/2.5/";
 	let CITY_FROM = "forecast?q="+ "${user.city}" + "," + "${user.state}" + ",us";
-	let ZIP_CODE_FROM = "forecast?zip=" + ${user.zipCode}
+	let ZIP_CODE_FROM = "forecast?zip=" + ${user.zipCode} + "";
 	let APPID = "&APPID=";
 	let OPEN_WEATHER_MAP_KEY = "a30be688bf0b959ec440996cd755e890";
+	var firstLoad = true;
+	console.log("Set first load");
 	var URL_ICON = "http://openweathermap.org/img/w/";
 	var map;
 	var geoJSON = {
@@ -38,11 +40,32 @@
 	var gettingData = false;
 	var openWeatherMapKey = "a30be688bf0b959ec440996cd755e890"
 	
+	var currentLocation = {
+		lat: 0,
+		lon: 0
+	};
+	
+	
+	getLocation();
+	
+	function getLocation() {
+	     if (navigator.geolocation) {
+	         navigator.geolocation.getCurrentPosition(showPosition);
+	     }
+	 }
+
+	 function showPosition(position) {
+		 currentLocation.lat = position.coords.latitude;
+		 currentLocation.lon = position.coords.longitude;
+		 console.log("Current location: ", currentLocation);
+		 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
+	 } 
+	
 	
 	function initialize() {
 		var mapOptions = {
 			zoom : 8,
-			center : new google.maps.LatLng(41, -91.9)
+			center : new google.maps.LatLng(currentLocation.lat, currentLocation.lon)
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'),
 				mapOptions);
@@ -100,7 +123,12 @@
 			gettingData = false;
 		}
 		//GoSearchDesCityFunc();
-		initialWeatherMap();
+		if(firstLoad == true){
+			initialWeatherMap();
+			firstLoad = false;
+			console.log("Inner firstLoad = "+firstLoad);
+		}		
+		console.log("firstLoad = "+firstLoad);
 	};
 	
 	function initialWeatherMap() {
@@ -118,10 +146,12 @@
 		}).fail(ajaxError);
 	}
 	function ForecastFromCitySuccess(results) {
+		resetData();
 		var json = jsonToGeoJson(results);
 		console.log(json.properties.list);
 		geoJSON.features.push(json);
 		drawIcons(geoJSON);
+		map.setCenter(new google.maps.LatLng(results.city.coord.lat, results.city.coord.lon));
 	}
 	function ajaxError(xhr, status, exception) {
 		console.log(xhr, status, exception);
@@ -176,28 +206,17 @@
 	};
 	google.maps.event.addDomListener(window, 'load', initialize);
 	
-	/* $(function() {
-	    $("input[type=\"radio\"]").click(function(){
-	        //localStorage:
-	        localStorage.setItem("option", $('input[name=des]').val());
-	    });
-	    
-	    var itemValue = localStorage.getItem("option");
-	    if (itemValue !== null) {
-	        $("input[value=\""+itemValue+"\"]").checked = true;
-	    }
-	}); */
 	 $(function() {
 		 $("#btnSearchDes").click(GoSearchDesFunc);
 		 
 		 function GoSearchDesFunc() {
 				var requestString= "";
-				if($("#txtCity").val().trim() != ""){
+				if($("#txtSearch").val().trim() != "" && $('input:radio[name=des]:checked').val() == "cityDes"){
 					//_CityFrom 
-					requestString = URL + "forecast?q="+ $("#txtCity").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY; 
+					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY; 
 				} else {
 					//_ZipcodeFrom
-					requestString = URL + "forecast?zip=" + $("#txtZipCode").val() + APPID + OPEN_WEATHER_MAP_KEY; 
+					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + APPID + OPEN_WEATHER_MAP_KEY; 
 				}
 				//console.log(requestString);
 				$.get(requestString).done(function(results) {
@@ -211,26 +230,29 @@
 </head>
 <body>
 	<form method='post' action='WeatherController'>
-		<fieldset class="radiogroup"> 
+		<fieldset class="radiogroup">
 			<legend>Search Weather by</legend>
-			  <div> 
-				   City: <input type="text" name="txtCity" id="txtCity" />
-				   State: <input type="text" name="txtState" id="txtState" />
-				   Zip code: <input type="text" name="txtZipCode" id="txtZipCode" />
-			    
-				<input type="submit" name="btnSearchDes" id="btnSearchDes" value="Search" />
-				<!-- <select id="mySelect">
-				  <option>City Destination</option>
-				  <option>Zip Code Destination</option>
-				  <option>Current Location</option>
-				</select> -->
+			<div>
+				Search: <input type="text" name="txtSearch" id="txtSearch" />
+				State: <input class="form-control"
+					placeholder="Eg.IA (Must be 2 characters)" name="state" type="text"
+					value="${user.getState()}" id="txtState" />
+
+				<input type="submit" name="btnSearchDes" id="btnSearchDes"
+					value="Search" />
 			</div>
-			  <ul class="radio"> 
-			    <li><input type="radio" name="des" id="cityDes" value="cityDes"/><label for="cityDes">City Destination</label></li> 
-			    <li><input type="radio" name="des" id="zipCodeDes" value="zipCodeDes" /><label for="zipCodeDes">Zip Code Destination</label></li> 
-			    <li><input type="radio" name="des" id="currentLocation" value="currentLocation" /><label for="currentLocation">Current Location</label></li> 
-			  </ul> 
-		</fieldset>		
+			<ul class="radio">
+				<li><input type="radio" name="des" value="cityDes"
+					${cityDesChecked} checked /><label for="cityDes">City
+						Destination</label></li>
+				<li><input type="radio" name="des" value="zipCodeDes"
+					${zipCodeDesChecked} /><label for="zipCodeDes">Zip Code
+						Destination</label></li>
+				<li><input type="radio" name="des" value="currentLocation"
+					${currentLocationChecked} /><label for="currentLocation">Current
+						Location</label></li>
+			</ul>
+		</fieldset>
 	</form>
 	<div id="map-canvas"></div>
 	<p id="demo"></p>
