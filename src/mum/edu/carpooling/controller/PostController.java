@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -11,9 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import mum.edu.carpooling.domain.Post;
-import mum.edu.carpooling.repository.PostRepository;
 import mum.edu.carpooling.service.UserPostService;
 import mum.edu.carpooling.service.impl.UserPostServiceImpl;
 
@@ -60,6 +61,11 @@ public class PostController extends HttpServlet {
         else
         	sb.append("]");
 
+        // store time load to session
+        LocalDateTime now = LocalDateTime.now();
+        HttpSession session = request.getSession();
+		session.setAttribute("loadtime", now);
+				
 		out.println(sb.toString());
 		out.close();
 	}

@@ -4,7 +4,8 @@
 <html>
 <head>
 <title>User Details</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+<link rel="stylesheet" href="/Carpooling/resources/css/menu.css"/>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -12,9 +13,16 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/js/userDetails.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/userDetails.js"></script>	
 </head>
 <body>
+<div class="topnav">
+  <a href="/Carpooling/login" id="menuhome">Home</a>
+  <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
+  <a href="#map" id="menumap">Map</a>
+  <a class="active" href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+</div>
+
 	<div class="jumbotron text-left">
 		<h1>Welcome to Car Pooling Service</h1>
 	</div>

@@ -1,3 +1,8 @@
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
 .topnav a {
   float: left;
   display: block;
@@ -15,5 +20,10 @@
 
 .topnav a.active {
     background-color: #4CAF50;
+    color: white;
+}
+
+.topnav a.notify {
+    background-color: #ff8000;
     color: white;
 }
