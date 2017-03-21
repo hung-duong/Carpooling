@@ -81,7 +81,7 @@
                 contentHTML += "<img src=" + URL_ICON + event.feature.getProperty("list")[i].weather[0].icon + ".png"  + ">"
                 contentHTML += "<br /><strong>" + event.feature.getProperty("list")[i].dt_txt + "</strong>";
                 contentHTML += "<br />" + event.feature.getProperty("list")[i].weather[0].main;
-                contentHTML += "<br />" + event.feature.getProperty("list")[i].main.temp;
+                contentHTML += "<br />" + event.feature.getProperty("list")[i].main.temp + "&deg;F";
                 contentHTML += "</td>";
             }
             contentHTML += "</table>";
@@ -241,7 +241,7 @@
 				<select id="des">
 				  <option>City Destination</option>
 				  <option>Zip Code Destination</option>
-				  <option>Current Location</option>
+				 <!--  <option>Current Location</option> -->
 				</select> 
 				<input type="button" name="btnSearchDes" id="btnSearchDes"
 					value="Search" />
