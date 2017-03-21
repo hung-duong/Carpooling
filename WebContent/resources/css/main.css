@@ -35,7 +35,7 @@ div {
     padding: 0px;
     border: 2px solid;
     border-radius: 16px 16px 16px 16px;
-    text-align: right;
+    text-align: right; 
 }
 
 .pTitle {
@@ -55,9 +55,10 @@ div {
 
 .btnComments {
     margin: 5px;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 2px;
+    border-radius: 5px;
     background-color: #CCCCFF;
+    display: inline-block;    
 }
 
 .divComment {
@@ -81,3 +82,16 @@ div {
   background-color: #333;
 }
 
+.textEdit {	
+	text-align: left;
+	margin: 10px;
+    padding: 10px;                       
+}
+
+.btnAdd {	
+	text-align: left;
+    margin: 5px;
+    padding: 2px;
+    border-radius: 5px;
+    background-color: #CCCCFF;            
+}

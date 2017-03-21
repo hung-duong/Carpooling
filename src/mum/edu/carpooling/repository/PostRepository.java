@@ -21,7 +21,7 @@ public class PostRepository {
 	public void Insert(String userName, String title, String body, int postType) throws SQLException{
 		try{
 						
-			String sql = "INSERT INTO posts(username,title,body,posttype,datecreated) VALUES (?,?,?,curdate())";
+			String sql = "INSERT INTO posts(username,title,body,posttype,datecreated) VALUES (?,?,?,?,now())";
 			PreparedStatement pStatement = (PreparedStatement) dbConnect.prepareStatement(sql);
 			pStatement.setString(1, userName);
 			pStatement.setString(2, title);
@@ -33,16 +33,6 @@ public class PostRepository {
 		catch(ParseException e){
 			e.printStackTrace();
 		}
-		finally{
-			try{
-				dbConnect.close();
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
-			
-		}
-		
 	}
 	
 	//delete the post from user
@@ -56,19 +46,11 @@ public class PostRepository {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{
-			try{
-				dbConnect.close();
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
 	}
 	public ArrayList<Post> Select(){
 		ArrayList<Post> posts = new ArrayList<Post>();
 		try{
-			String sql = "SELECT username,postid,body,title,posttype,datecreated FROM posts";
+			String sql = "SELECT username,postid,body,title,posttype,datecreated FROM posts  order by datecreated ASC limit 25";
 			PreparedStatement prepSatement = null;
 			if (dbConnect != null)
 				prepSatement = dbConnect.prepareStatement(sql);

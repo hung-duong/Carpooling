@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String user = (String) session.getAttribute("user");
+		String user = (String) session.getAttribute("username");
 		RequestDispatcher dipatcher = null;
 		if(user != null) {
 			dipatcher = request.getRequestDispatcher("welcome.jsp");
