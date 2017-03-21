@@ -18,21 +18,28 @@ import mum.edu.carpooling.domain.User;
 import mum.edu.carpooling.service.UserService;
 import mum.edu.carpooling.service.impl.UserServiceImpl;
 
-/**
- * Servlet implementation class UserController
- */
-@WebServlet("/addUserDetails")
-public class AddUserDetailsController extends HttpServlet {
+@WebServlet("/updateUserDetails")
+public class UpdateUserDetailsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-	UserService userService = new UserServiceImpl();
+	private UserService userService = new UserServiceImpl();
 	
-    public AddUserDetailsController() {
+    public UpdateUserDetailsController() {
         super();
     }
-   
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dipatcher = request.getRequestDispatcher("addUserDetails.jsp");
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		User user = userService.findUserByUsername(username);
+		
+		RequestDispatcher dipatcher;
+		if(user != null) {
+			request.setAttribute("user", user);
+			dipatcher = request.getRequestDispatcher("updateUserDetails.jsp");
+		} else {
+			dipatcher = request.getRequestDispatcher("welcome.jsp");
+		}
+		
 		dipatcher.forward(request, response);
 	}
 
@@ -76,9 +83,10 @@ public class AddUserDetailsController extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		user.setUsername(username);
 		
-		userService.addUserDetails(user);
+		userService.updateUser(user);
 		
 		RequestDispatcher dipatcher = request.getRequestDispatcher("welcome.jsp");
 		dipatcher.forward(request, response);	
 	}
+
 }

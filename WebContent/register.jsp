@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div class="jumbotron text-center">
-		<h1>Wellcome to Carpooling</h1>
+		<h1>Welcome to Car Pooling Service</h1>
 		<p>Please register an account to enjoy</p>
 	</div>
 
@@ -32,7 +32,7 @@
 						<h3 class="panel-title">Create Account</h3>
 					</div>
 					<div class="panel-body">
-						<form id="newCustomer" method="post">
+						<form id="newUser" method="post">
 							<fieldset>
 								<div class="form-group">
 									<input id="inputUsername" class="form-input-large"

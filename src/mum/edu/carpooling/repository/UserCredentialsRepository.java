@@ -18,7 +18,7 @@ public class UserCredentialsRepository {
 	public boolean authenticate(String username, String password) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("SELECT password FROM UserCredentials WHERE username = ?");
+					.prepareStatement("SELECT password FROM usercredentials WHERE username = ?");
 			prepStatement.setString(1, username);
 
 			ResultSet result = prepStatement.executeQuery();
@@ -40,7 +40,7 @@ public class UserCredentialsRepository {
 	public UserCredentials findOne(String username) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("SELECT password FROM UserCredentials WHERE username = ?");
+					.prepareStatement("SELECT password FROM usercredentials WHERE username = ?");
 			prepStatement.setString(1, username);
 
 			ResultSet result = prepStatement.executeQuery();
@@ -62,7 +62,7 @@ public class UserCredentialsRepository {
 	public void addUser(String username, String password) {
 		try {
 			PreparedStatement prepStatement = connection
-					.prepareStatement("INSERT INTO UserCredentials(username, password) VALUES (?, ?)");
+					.prepareStatement("INSERT INTO usercredentials(username, password) VALUES (?, ?)");
 			prepStatement.setString(1, username);
 			prepStatement.setString(2, password);
 			prepStatement.execute();

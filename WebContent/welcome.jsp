@@ -23,7 +23,7 @@
   <a class="active" href="welcome.jsp">Home</a>
   <a href="addpost.jsp">Add Post</a>
   <a href="#map">Map</a>
-  <a href="#map">Update Profile</a>
+  <a href="updateUserDetails">Update Profile</a>
 </div>
 		<div id="container">
 			<h1>Welcome to Car Pooling Service</h1>		
