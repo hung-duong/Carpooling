@@ -17,6 +17,7 @@
   <a class="active" href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
   <a href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+   <a href="/Carpooling/Logout" id="menulogout">Logout</a>
 </div>
 <h1>User Add Post</h1>
 	<form action="AddPost" method="post">
