@@ -177,7 +177,7 @@
 			properties : {
 				city : results.city.name,
 				list: results.list,
-				icon : URL_ICON + results.list[1].weather[0].icon + ".png",
+				icon : URL_ICON + results.list[0].weather[0].icon + ".png",
 				coordinates : [ results.city.coord.lon, results.city.coord.lat ]
 			},
 			geometry : {
