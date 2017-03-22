@@ -229,11 +229,14 @@
 					}).fail(ajaxError);
 				} else if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "Zip Code Destination"){
 					//_ZipcodeFrom
+					$('#txtState').val("");
 					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
 					$.get(requestString).done(function(results) {
 						ForecastFromCitySuccess(results);
 					}).fail(ajaxError);
-				} else {
+				} else if($('#des option:selected').val() == "Bound Current Location"){
+					$('#txtSearch').val("");
+					$('#txtState').val("");
 					 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
 					 getCoords();
 				}
