@@ -51,13 +51,7 @@ public class WeatherController extends HttpServlet {
 		
 		User user = userService.findUserByUsername(username);
 		request.setAttribute("user", user);
-		
-		String choice = request.getParameter("des");
-		if (choice != null)
-			System.out.println("choice= " + choice);
-		else
-			System.out.println("No choice made");
-		
+
 		forward(request, response, "search_weather.jsp");
 	}
 

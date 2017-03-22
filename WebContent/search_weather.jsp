@@ -7,7 +7,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/Carpooling/resources/css/menu.css"/>
+
 <link
 	href="${pageContext.request.servletContext.contextPath}/resources/css/weather.css"
 	type="text/css" rel="stylesheet" />
@@ -16,8 +16,8 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
 	type="text/javascript"></script>
-	
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+
+<link rel="stylesheet" href="/Carpooling/resources/css/menu.css"/>
 
 <script type="text/javascript"
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRPzdQe_b24l8lC0mYu1Hb6_WcpPWmfUo"></script>
@@ -25,9 +25,11 @@
 <script>
 	let URL = "http://api.openweathermap.org/data/2.5/";
 	let CITY_FROM = "forecast?q="+ "${user.city}" + "," + "${user.state}" + ",us";
-	let ZIP_CODE_FROM = "forecast?zip=" + ${user.zipCode}
+	let ZIP_CODE_FROM = "forecast?zip=" + "${user.zipCode}";
 	let APPID = "&APPID=";
 	let OPEN_WEATHER_MAP_KEY = "a30be688bf0b959ec440996cd755e890";
+	let DEFAULT_UNIT = "Imperial";
+	var firstLoad = true;
 	var URL_ICON = "http://openweathermap.org/img/w/";
 	var map;
 	var geoJSON = {
@@ -38,11 +40,32 @@
 	var gettingData = false;
 	var openWeatherMapKey = "a30be688bf0b959ec440996cd755e890"
 	
+	var currentLocation = {
+		lat: 0,
+		lon: 0
+	};
+	
+	
+	getLocation();
+	
+	function getLocation() {
+	     if (navigator.geolocation) {
+	         navigator.geolocation.getCurrentPosition(showPosition);
+	     }
+	 }
+
+	 function showPosition(position) {
+		 currentLocation.lat = position.coords.latitude;
+		 currentLocation.lon = position.coords.longitude;
+		 console.log("Current location: ", currentLocation);
+		 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
+	 } 
+	
 	
 	function initialize() {
 		var mapOptions = {
 			zoom : 8,
-			center : new google.maps.LatLng(41, -91.9)
+			center : new google.maps.LatLng(currentLocation.lat, currentLocation.lon)
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'),
 				mapOptions);
@@ -51,10 +74,6 @@
 		// Sets up and populates the info window with details
 		
 		map.data.addListener('click', function(event) {
-			/* /* main : results.list[1].weather[0].main,
-			description : results.list[1].weather[0].description, 
-			icon : "http://openweathermap.org/img/w/"
-					+ results.list[1].weather[0].icon + ".png", */
 			var contentHTML = "<table>";
             for(var i = 0; i <event.feature.getProperty("list").length; i++) {
           
@@ -62,9 +81,7 @@
                 contentHTML += "<img src=" + URL_ICON + event.feature.getProperty("list")[i].weather[0].icon + ".png"  + ">"
                 contentHTML += "<br /><strong>" + event.feature.getProperty("list")[i].dt_txt + "</strong>";
                 contentHTML += "<br />" + event.feature.getProperty("list")[i].weather[0].main;
-                contentHTML += "<br />" + event.feature.getProperty("list")[i].main.temp;
-                /* contentHTML += "<br />" + event.feature.getProperty("list")[i].weather[0].description;  */
-        
+                contentHTML += "<br />" + event.feature.getProperty("list")[i].main.temp + "&deg;F";
                 contentHTML += "</td>";
             }
             contentHTML += "</table>";
@@ -78,7 +95,6 @@
 				    + event.feature.getProperty("list")[0].weather[0].main + "<br />"
 					+ event.feature.getProperty("list")[0].weather[0].description + "<br />"
 					+ contentHTML
-					+ "<a href='javascript:doSomething();'>click for detail</a>"
 					);
 			infowindow.setOptions({
 				position : {
@@ -100,28 +116,41 @@
 			gettingData = false;
 		}
 		//GoSearchDesCityFunc();
-		initialWeatherMap();
+		if(firstLoad == true){
+			initialWeatherMap();
+			firstLoad = false;
+			console.log("Inner firstLoad = "+firstLoad);
+		}		
+		console.log("firstLoad = "+firstLoad);
 	};
 	
 	function initialWeatherMap() {
 		var requestString= "";
-		if(${empty user.city}){
+		var city = "${user.city}";
+		var zipCode = "${user.zipCode}";
+		if(city != ""){
 			//_CityFrom 
-			requestString = URL + CITY_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
-		} else if(${not empty user.zipCode}){
+			requestString = URL + CITY_FROM + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
+			$.get(requestString).done(function(results) {
+				ForecastFromCitySuccess(results);
+			}).fail(ajaxError);
+		} else if(zipCode !=""){
 			//_ZipcodeFrom
-			requestString = URL + ZIP_CODE_FROM + APPID + OPEN_WEATHER_MAP_KEY; 
+			requestString = URL + ZIP_CODE_FROM + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
+			$.get(requestString).done(function(results) {
+				ForecastFromCitySuccess(results);
+			}).fail(ajaxError);
+		} else {
+			 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
 		}
-		//console.log(requestString);
-		$.get(requestString).done(function(results) {
-			ForecastFromCitySuccess(results);
-		}).fail(ajaxError);
 	}
 	function ForecastFromCitySuccess(results) {
+		resetData();
 		var json = jsonToGeoJson(results);
 		console.log(json.properties.list);
 		geoJSON.features.push(json);
 		drawIcons(geoJSON);
+		map.setCenter(new google.maps.LatLng(results.city.coord.lat, results.city.coord.lon));
 	}
 	function ajaxError(xhr, status, exception) {
 		console.log(xhr, status, exception);
@@ -135,10 +164,7 @@
 			properties : {
 				city : results.city.name,
 				list: results.list,
-				/* main : results.list[1].weather[0].main,
-				description : results.list[1].weather[0].description, */
-				icon : "http://openweathermap.org/img/w/"
-						+ results.list[1].weather[0].icon + ".png",
+				icon : URL_ICON + results.list[1].weather[0].icon + ".png",
 				coordinates : [ results.city.coord.lon, results.city.coord.lat ]
 			},
 			geometry : {
@@ -176,67 +202,56 @@
 	};
 	google.maps.event.addDomListener(window, 'load', initialize);
 	
-	/* $(function() {
-	    $("input[type=\"radio\"]").click(function(){
-	        //localStorage:
-	        localStorage.setItem("option", $('input[name=des]').val());
-	    });
-	    
-	    var itemValue = localStorage.getItem("option");
-	    if (itemValue !== null) {
-	        $("input[value=\""+itemValue+"\"]").checked = true;
-	    }
-	}); */
 	 $(function() {
 		 $("#btnSearchDes").click(GoSearchDesFunc);
-		 
+		
 		 function GoSearchDesFunc() {
 				var requestString= "";
-				if($("#txtCity").val().trim() != ""){
+				if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "City Destination"){
 					//_CityFrom 
-					requestString = URL + "forecast?q="+ $("#txtCity").val()  + "," + $("#txtState").val() + ",us" + APPID + OPEN_WEATHER_MAP_KEY; 
-				} else {
+					requestString = URL + "forecast?q="+ $("#txtSearch").val()  + "," + $("#txtState").val() + ",us" + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY;
+					//console.log(requestString);
+					$.get(requestString).done(function(results) {
+						ForecastFromCitySuccess(results);
+					}).fail(ajaxError);
+				} else if($("#txtSearch").val().trim() != "" && $('#des option:selected').val() == "Zip Code Destination"){
 					//_ZipcodeFrom
-					requestString = URL + "forecast?zip=" + $("#txtZipCode").val() + APPID + OPEN_WEATHER_MAP_KEY; 
+					requestString = URL + "forecast?zip=" + $("#txtSearch").val() + "&units=" + DEFAULT_UNIT + APPID + OPEN_WEATHER_MAP_KEY; 
+					$.get(requestString).done(function(results) {
+						ForecastFromCitySuccess(results);
+					}).fail(ajaxError);
+				} else {
+					 map.setCenter(new google.maps.LatLng(currentLocation.lat, currentLocation.lon));
 				}
-				//console.log(requestString);
-				$.get(requestString).done(function(results) {
-					ForecastFromCitySuccess(results);
-				}).fail(ajaxError);
 		}
 	 });
-	//$("#btnSearchDesCity").click(GoSearchDesCityFunc);
 </script>
 
 </head>
 <body>
-<div class="topnav">
+	<div class="topnav">
   <a href="/Carpooling/login" id="menuhome">Home</a>
   <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
   <a class="active" href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
 </div>
 	<form method='post' action='WeatherController'>
-		<fieldset class="radiogroup"> 
+		<fieldset class="radiogroup">
 			<legend>Search Weather by</legend>
-			  <div> 
-				   City: <input type="text" name="txtCity" id="txtCity" />
-				   State: <input type="text" name="txtState" id="txtState" />
-				   Zip code: <input type="text" name="txtZipCode" id="txtZipCode" />
-			    
-				<input type="submit" name="btnSearchDes" id="btnSearchDes" value="Search" />
-				<!-- <select id="mySelect">
+			<div>
+				Search: <input type="text" name="txtSearch" id="txtSearch" />
+				State: <input class="form-control"
+					placeholder="Eg.IA (Must be 2 characters)" name="state" type="text"
+					value="${user.getState()}" id="txtState" />
+				<select id="des">
 				  <option>City Destination</option>
 				  <option>Zip Code Destination</option>
-				  <option>Current Location</option>
-				</select> -->
+				 <!--  <option>Current Location</option> -->
+				</select> 
+				<input type="button" name="btnSearchDes" id="btnSearchDes"
+					value="Search" />
 			</div>
-			  <ul class="radio"> 
-			    <li><input type="radio" name="des" id="cityDes" value="cityDes"/><label for="cityDes">City Destination</label></li> 
-			    <li><input type="radio" name="des" id="zipCodeDes" value="zipCodeDes" /><label for="zipCodeDes">Zip Code Destination</label></li> 
-			    <li><input type="radio" name="des" id="currentLocation" value="currentLocation" /><label for="currentLocation">Current Location</label></li> 
-			  </ul> 
-		</fieldset>		
+		</fieldset>
 	</form>
 	<div id="map-canvas"></div>
 	<p id="demo"></p>
