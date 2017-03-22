@@ -19,7 +19,7 @@
 <div class="topnav">
   <a href="/Carpooling/login" id="menuhome">Home</a>
   <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
-  <a href="#map" id="menumap">Map</a>
+  <a href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a class="active" href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
 </div>
 

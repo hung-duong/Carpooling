@@ -50,7 +50,7 @@ public class PostRepository {
 	public ArrayList<Post> Select(){
 		ArrayList<Post> posts = new ArrayList<Post>();
 		try{
-			String sql = "SELECT username,postid,body,title,posttype,datecreated FROM posts  order by datecreated ASC limit 25";
+			String sql = "SELECT username,postid,body,title,posttype,datecreated FROM posts  order by datecreated DESC";
 			PreparedStatement prepSatement = null;
 			if (dbConnect != null)
 				prepSatement = dbConnect.prepareStatement(sql);
@@ -65,7 +65,7 @@ public class PostRepository {
 				post.setPostId(rs.getInt("postid"));
 				post.setTitle(rs.getString("title"));
 				post.setBody(rs.getString("body"));
-				post.setDateCreated(rs.getDate("datecreated"));
+				post.setDateCreated(rs.getTimestamp ("datecreated"));
 				post.setPostType(rs.getInt("posttype"));
 				posts.add(post);
 			}
@@ -82,7 +82,7 @@ public class PostRepository {
 		try {
 			String sql = "select username,datecreated from posts where "
 					+ "datecreated in (select max(datecreated) from posts where username!=?) "
-					+ "and datecreated > (NOW() - INTERVAL 20 second)";	
+					+ "and datecreated > (NOW() - INTERVAL 15 second)";	
 			
 			PreparedStatement prepSatement = null;
 			if (dbConnect != null)

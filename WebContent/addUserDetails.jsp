@@ -15,12 +15,7 @@
 	src="${pageContext.request.contextPath}/resources/js/userDetails.js"></script>
 </head>
 <body>
-<div class="topnav">
-  <a class="active" href="/Carpooling/login" id="menuhome">Home</a>
-  <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
-  <a href="#map" id="menumap">Map</a>
-  <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
-</div>
+
 	<div class="jumbotron text-left">
 		<h1>Welcome to Car Pooling Service</h1>
 	</div>

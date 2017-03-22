@@ -95,7 +95,6 @@
 				    + event.feature.getProperty("list")[0].weather[0].main + "<br />"
 					+ event.feature.getProperty("list")[0].weather[0].description + "<br />"
 					+ contentHTML
-					+ "<a href='javascript:doSomething();'>click for detail</a>"
 					);
 			infowindow.setOptions({
 				position : {

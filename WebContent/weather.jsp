@@ -10,6 +10,8 @@
 
 <link
 	href="${pageContext.request.servletContext.contextPath}/resources/css/weather.css"
+
+	
 	type="text/css" rel="stylesheet" />
 <script type="text/javascript"
 	src="${pageContext.request.servletContext.contextPath}/resources/js/weather.js"></script>
@@ -227,6 +229,7 @@ ul.radio li.focus  {
 </script>
 </head>
 <body>
+
 	<form>
 		<fieldset class="radiogroup"> 
 			<legend>Search Weather by</legend>

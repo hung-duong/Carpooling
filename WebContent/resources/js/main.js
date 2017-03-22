@@ -27,9 +27,9 @@ $(function() {
 	        // creat title, body post and hidden input
 	        var title = $("<p>").text(post.title);
 	        var body= $("<p>").text(post.body);
-	        var hiddenPostId = $("<input>").prop("type", "hidden").val(post.id);
+	        var hiddenPostId = $("<input>").prop("type", "hidden").val(post.postId);
 
-	        if ($("#username").val() == post.username) {
+	        if ($("#username").val() == post.userName) {
 		        var btnDel = $("<input>").prop("value", "Delete")
 					.prop("type", "button");
 			    btnDel.on( "click", function(evt) {
@@ -61,7 +61,7 @@ $(function() {
 	        divPost.addClass("divPost");
 	        title.addClass("pTitle");
 	        body.addClass("pBody");
-	        if ($("#username").val() == post.username) 
+	        if ($("#username").val() == post.userName) 
 	        	btnDel.addClass("btnComments");
 	        btnComments.addClass("btnComments");
 	        
@@ -69,7 +69,7 @@ $(function() {
 			// append them to DIV element
 			title.appendTo(divPost);
 			body.appendTo(divPost);
-			if ($("#username").val() == post.username) 
+			if ($("#username").val() == post.userName) 
 				 btnDel.appendTo(divPost);
 			btnComments.appendTo(divPost);			
 			hiddenPostId.appendTo(divPost);
