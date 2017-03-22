@@ -234,6 +234,7 @@
   <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
   <a class="active" href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+   <a href="/Carpooling/Logout" id="menulogout">Logout</a>
 </div>
 	<form method='post' action='WeatherController'>
 		<fieldset class="radiogroup">

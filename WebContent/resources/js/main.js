@@ -168,6 +168,10 @@ $(function() {
 			myStopFunction();
 			return true;
 		});
+		$("#menulogout").on( "click", function(evt) {	
+			myStopFunction();
+			return true;
+		});
 	})();
 	
 	function ajaxFailure(xhr, status, exception) {

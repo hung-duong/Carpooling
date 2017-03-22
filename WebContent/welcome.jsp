@@ -21,6 +21,7 @@
   <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
   <a href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+  <a href="/Carpooling/Logout" id="menulogout">Logout</a>
 </div>
 		<input type="hidden" name="username" id="username" value="${username}">
 		<div id="container">
