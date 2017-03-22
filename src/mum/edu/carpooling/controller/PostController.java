@@ -45,10 +45,11 @@ public class PostController extends HttpServlet {
 		ArrayList<Post> posts = postService.getUserPosts();
 		response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-	    
+        
         Gson gson = new Gson();
 		String json = gson.toJson(posts);
 		out.println(json);
+		
 		out.close();
 	}
 
