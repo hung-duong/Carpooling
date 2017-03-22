@@ -11,11 +11,12 @@
 	<%-- <script src="${pageContext.request.contextPath}/resources/js/addpost.js"></script>	 --%>
 </head>
 <body>
+
 <div class="topnav">
-  <a href="/Carpooling/login">Home</a>
-  <a class="active"  href="addpost.jsp">Add Post</a>
-  <a href="#map">Map</a>
-  <a href="#map">Update Profile</a>
+  <a  href="/Carpooling/login" id="menuhome">Home</a>
+  <a class="active" href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
+  <a href="/Carpooling/WeatherController" id="menumap">Map</a>
+  <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
 </div>
 <h1>User Add Post</h1>
 	<form action="AddPost" method="post">

@@ -22,7 +22,7 @@
 <div class="topnav">
   <a class="active" href="/Carpooling/login" id="menuhome">Home</a>
   <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
-  <a href="#map" id="menumap">Map</a>
+  <a href="/Carpooling/WeatherController" id="menumap">Map</a>
   <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
 </div>
 		<input type="hidden" name="username" id="username" value="${username}">

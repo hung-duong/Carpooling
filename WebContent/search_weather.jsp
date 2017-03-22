@@ -7,7 +7,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Insert title here</title>
-
+<link rel="stylesheet" href="/Carpooling/resources/css/menu.css"/>
 <link
 	href="${pageContext.request.servletContext.contextPath}/resources/css/weather.css"
 	type="text/css" rel="stylesheet" />
@@ -210,6 +210,12 @@
 
 </head>
 <body>
+<div class="topnav">
+  <a href="/Carpooling/login" id="menuhome">Home</a>
+  <a href="/Carpooling/AddPost" id="menuaddpost">Add Post</a>
+  <a class="active" href="/Carpooling/WeatherController" id="menumap">Map</a>
+  <a href="/Carpooling/updateUserDetails" id="menuprofile">Update Profile</a>
+</div>
 	<form method='post' action='WeatherController'>
 		<fieldset class="radiogroup"> 
 			<legend>Search Weather by</legend>

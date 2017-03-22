@@ -1,5 +1,6 @@
 package mum.edu.carpooling.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Comment {
@@ -7,7 +8,7 @@ public class Comment {
 	private String userName;
 	private Integer postId;
 	private String comment;
-	private Date dateCreated;
+	private Timestamp dateCreated;
 	public Integer getComId() {
 		return comId;
 	}
@@ -35,7 +36,7 @@ public class Comment {
 	public Date getDateCreated() {
 		return dateCreated;
 	}
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 	

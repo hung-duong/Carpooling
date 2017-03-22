@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import mum.edu.carpooling.domain.Post;
 import mum.edu.carpooling.service.UserPostService;
 import mum.edu.carpooling.service.impl.UserPostServiceImpl;
@@ -43,30 +45,10 @@ public class PostController extends HttpServlet {
 		ArrayList<Post> posts = postService.getUserPosts();
 		response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        StringBuffer sb = new StringBuffer();
-        sb.append("[");
-        for (Post p : posts) {
-			sb.append("{\n");
-			sb.append("\"id\": \"").append(p.getPostId().toString()).append("\",\n");
-			sb.append("\"username\": \"").append(p.getUserName()).append("\",\n");
-			sb.append("\"posttype\": \"").append(p.getPostType().toString()).append("\",\n");
-			sb.append("\"datecreated\": \"").append(df.format(p.getDateCreated())).append("\",\n");
-			sb.append("\"title\": \"").append(p.getTitle()).append("\",\n");
-			sb.append("\"body\": \"").append(p.getBody()).append("\"\n");
-			sb.append("},\n");	
-        }
-        if (posts.size() > 0)
-			sb.setCharAt(sb.length()-2, ']');
-        else
-        	sb.append("]");
-
-        // store time load to session
-        LocalDateTime now = LocalDateTime.now();
-        HttpSession session = request.getSession();
-		session.setAttribute("loadtime", now);
-				
-		out.println(sb.toString());
+	    
+        Gson gson = new Gson();
+		String json = gson.toJson(posts);
+		out.println(json);
 		out.close();
 	}
 

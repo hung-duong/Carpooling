@@ -60,7 +60,7 @@ private Connection dbConnect;
 				com.setUserName(rs.getString("username"));
 				com.setPostId(rs.getInt("postid"));
 				com.setComment(rs.getString("comment"));
-				com.setDateCreated(rs.getDate("datecreated"));
+				com.setDateCreated(rs.getTimestamp("datecreated"));
 				comments.add(com);
 			}
 		}
